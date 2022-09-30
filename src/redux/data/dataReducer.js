@@ -16,11 +16,12 @@ const dataReducer = (state = initialState, action) => {
         errorMsg: "",
       };
     case "CHECK_DATA_SUCCESS":
+
       return {
         ...state,
         loading: false,
         totalSupply: action.payload.totalSupply,
-        // cost: action.payload.cost,
+        cost: action.payload.cost,
         error: false,
         errorMsg: "",
       };

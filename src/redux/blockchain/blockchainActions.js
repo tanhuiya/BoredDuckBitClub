@@ -34,12 +34,14 @@ const updateAccountRequest = (payload) => {
 export const connect = () => {
   return async (dispatch) => {
     dispatch(connectRequest());
-    const abiResponse = await fetch("/config/abi.json", {
+    console.log("connecting")
+    const abiResponse = await fetch("/config/BoredCatYachtClub.json", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
       },
     });
+
     const abi = await abiResponse.json();
     const configResponse = await fetch("/config/config.json", {
       headers: {
