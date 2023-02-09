@@ -1,17 +1,17 @@
 {
-  "CONTRACT_ADDRESS": "0x99bddb1d54ac678fda81723e9e8c58402cc05ce7",
-  "SCAN_LINK": "https://etherscan.io/address/0x99bddb1d54ac678fda81723e9e8c58402cc05ce7",
+  "CONTRACT_ADDRESS": "0x703a6540342de13be9bddecb8ec5be0039e2ed79",
+  "SCAN_LINK": "https://etherscan.io/address/0x703a6540342de13be9bddecb8ec5be0039e2ed79",
   "NETWORK": {
     "NAME": "Ethereum",
     "SYMBOL": "ETH",
     "ID": 1
   },
-  "NFT_NAME": "Bored Duck Bit Club",
-  "SYMBOL": "BDBC",
-  "MAX_SUPPLY": 4444,
+  "NFT_NAME": "Dunklize",
+  "SYMBOL": "Dunklize",
+  "MAX_SUPPLY": 8888,
   "WEI_COST": 75000000000000000,
-  "DISPLAY_COST": 0.001,
+  "DISPLAY_COST": 0.002,
   "MARKETPLACE": "Opensea",
-  "MARKETPLACE_LINK": "https://opensea.io/collection/bored-duck-bit-club",
+  "MARKETPLACE_LINK": "https://opensea.io/collection/dunklize",
   "SHOW_BACKGROUND": false
 }

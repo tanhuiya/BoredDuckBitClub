@@ -12,7 +12,8 @@ const truncate = (input, len) =>
 export const StyledButton = styled.button`
   padding: 10px;
   border-radius: 10px;
-  border: none;
+  border: 10px;
+  border-color: white;
   background-color: black;
   padding: 10px;
   font-weight: bold;
@@ -94,7 +95,7 @@ function App() {
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
   const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`);
-  const [mintAmount, setMintAmount] = useState(11);
+  const [mintAmount, setMintAmount] = useState(10);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
     SCAN_LINK: "",
@@ -121,7 +122,7 @@ function App() {
     .then((minted) => {
       var actual = mintAmount
       if (minted == 0) {
-        actual = mintAmount -1 
+        actual = mintAmount - 2 
       }
       return String(data.cost * actual)
     })
@@ -203,19 +204,20 @@ function App() {
         style={{ padding: 24, backgroundColor: "white" ,}}
         image={CONFIG.SHOW_BACKGROUND ? "/config/images/bg6.png" : null}
       >
-        <StyledLogo alt={"logo"} src={"/config/images/title.png"} />
-        <s.SpacerSmall />
+        
         <ResponsiveWrapper flex={1} style={{ padding: 88 }} test>
-          <s.Container flex={1} jc={"center"} ai={"center"}>
-            <StyledImg alt={"example"} src={"/config/images/1.png"} />
-          </s.Container>
           <s.SpacerLarge />
+          <s.Container flex={1} jc={"center"} ai={"center"}>
+          <StyledLogo alt={"logo"} src={"/config/images/title.png"} />
+          <s.SpacerSmall />
+            <StyledImg alt={"example"} src={"/config/images/dunk.gif"} />
+          </s.Container>
           <s.Container
-            flex={2}
+            flex={1}
             jc={"center"}
             ai={"center"}
             style={{
-              backgroundColor: "grey",
+              backgroundColor: "black",
               padding: 24,
               borderRadius: 24,
               // border: "4px dashed var(--secondary)",
@@ -238,7 +240,7 @@ function App() {
                 color: "var(--primary-text)",
               }}
             >
-              <StyledLink target={"_blank"} href={CONFIG.SCAN_LINK}>
+              <StyledLink target={"_blank"} style={{color: "white"}} href={CONFIG.SCAN_LINK}>
                 {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
               </StyledLink>
             </s.TextDescription>
@@ -265,7 +267,7 @@ function App() {
                 <s.TextTitle
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
-                  Free Per Wallet, {Web3.utils.fromWei(new Web3.utils.BN(data.cost).toString(), 'ether')} ether For More.
+                  Free 2 Dunk Per Wallet, {Web3.utils.fromWei(new Web3.utils.BN(data.cost).toString(), 'ether')} ether For More.
                 </s.TextTitle>
                 <s.SpacerXSmall />
                 <s.TextDescription
@@ -361,7 +363,7 @@ function App() {
                           getData();
                         }}
                       >
-                        {claimingNft ? "BUSY" : "BUY"}
+                        {claimingNft ? "MING" : "M I N T"}
                       </StyledButton>
                     </s.Container>
                   </>
@@ -370,10 +372,7 @@ function App() {
             )}
             <s.SpacerMedium />
           </s.Container>
-          <s.SpacerLarge />
-          <s.Container flex={1} jc={"center"} ai={"center"}>
-            <StyledImg alt={"example"} src={"/config/images/122.png"} />
-          </s.Container>
+          
         </ResponsiveWrapper>
         <s.SpacerMedium />
         <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>

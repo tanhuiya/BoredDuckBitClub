@@ -35,7 +35,7 @@ export const connect = () => {
   return async (dispatch) => {
     dispatch(connectRequest());
     console.log("connecting")
-    const abiResponse = await fetch("/config/BoredCatYachtClub.json", {
+    const abiResponse = await fetch("/config/Dunk.json", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
