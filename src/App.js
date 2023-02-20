@@ -69,18 +69,20 @@ export const StyledLogo = styled.img`
   transition: height 0.5s;
 `;
 
-export const StyledImg = styled.img`
-  box-shadow: 0px 5px 11px 2px rgba(0, 0, 0, 0.7);
+export const StyledHref = styled.a`
+  display: block;
+  font-size: 30px;
+  text-align: center;
+  text-decoration: underline;
+`;
+
+export const StyledImg = styled.iframe`
+  // box-shadow: 0px 5px 11px 2px rgba(0, 0, 0, 0.7);
   // border: 4px dashed var(--secondary);
-  background-color: var(--accent);
+  background-color: "white";
   // border-radius: 100%;
-  width: 200px;
-  @media (min-width: 900px) {
-    width: 250px;
-  }
-  @media (min-width: 1000px) {
-    width: 300px;
-  }
+  width: 600px;
+  height: 600px;
   // transition: width 0.5s;
 `;
 
@@ -113,23 +115,21 @@ function App() {
     MARKETPLACE: "",
     MARKETPLACE_LINK: "",
     SHOW_BACKGROUND: false,
+    SAMPLE_URL: "",
+    LINK_URL: ""
   });
 
   const claimNFTs = () => {
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
 
-    blockchain.smartContract.methods.addrMinted(blockchain.account)
-    .call()
-    .then((minted) => {
-      var actual = mintAmount
-      if (minted == 0) {
-        actual = mintAmount - 2 
-      }
-      return String(data.cost * actual)
-    })
-    .then((totalvalue) => {
-      blockchain.smartContract.methods
+    var totalvalue = String(data.cost * mintAmount)
+
+    if (mintAmount == 1) {
+      totalvalue = 0
+    }
+    console.log("totalvalue: ", totalvalue)
+    blockchain.smartContract.methods
       .mint(mintAmount)
       .send({
         // gasLimit: String(totalGasLimit),
@@ -150,7 +150,6 @@ function App() {
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
       });
-    })
     
     
   };
@@ -194,9 +193,9 @@ function App() {
     getConfig();
   }, []);
 
-  useEffect(() => {
-    getData();
-  }, [blockchain.account]);
+  // useEffect(() => {
+  //   getData();
+  // }, [blockchain.account]);
 
   return (
     <s.Screen>
@@ -210,9 +209,19 @@ function App() {
         <ResponsiveWrapper flex={1} style={{ padding: 88 }} test>
           <s.SpacerLarge />
           <s.Container flex={1} jc={"center"} ai={"center"}>
-          <StyledLogo alt={"logo"} src={"/config/images/title.png"} />
+          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘a’ activates forward motion on/off</s.TextTitle>
+          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘b’ activates backward motion on/off</s.TextTitle>
+          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘r’ rotates grid 45° </s.TextTitle>
+          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘f’ rotates the grid freely</s.TextTitle>
+          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘p’ switches grid scale on/off </s.TextTitle>
+          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘g’ extra glyphs on/off</s.TextTitle>
+          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘q’ return to the initial state</s.TextTitle>
+
+
+          {/* <StyledLogo alt={"logo"} src={"/config/images/title.png"} /> */}
+          <StyledHref target="_blank" href={CONFIG.LINK_URL}>#1</StyledHref>
           <s.SpacerSmall />
-            <StyledImg alt={"example"} src={"/config/images/dunk.gif"} />
+            <StyledImg src={CONFIG.SAMPLE_URL} />
           </s.Container>
           <s.Container
             flex={1}
@@ -269,7 +278,7 @@ function App() {
                 <s.TextTitle
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
-                  Free 2 Dunk Per Wallet, {Web3.utils.fromWei(new Web3.utils.BN(data.cost).toString(), 'ether')} ether For More.
+                  Free 1 Per Wallet, {Web3.utils.fromWei(new Web3.utils.BN(data.cost).toString(), 'ether')} ether For More.
                 </s.TextTitle>
                 <s.SpacerXSmall />
                 <s.TextDescription
