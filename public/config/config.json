@@ -1,18 +1,11 @@
 {
-  "CONTRACT_ADDRESS": "0x52ac43D95701931adfB3BBAFe329E422eBacB54B",
-  "SCAN_LINK": "https://etherscan.io/address/0x703a6540342de13be9bddecb8ec5be0039e2ed79",
+  "CONTRACT_ADDRESS": "0xE884c566478096165a51BB0Ac23B7168514Ca3B7",
+  "SCAN_LINK": "https://arbiscan.io/address/0xE884c566478096165a51BB0Ac23B7168514Ca3B7",
   "NETWORK": {
-    "NAME": "Ethereum",
-    "SYMBOL": "ETH",
-    "ID": 1
+    "NAME": "Arbitrum",
+    "SYMBOL": "ARB",
+    "ID": 42161
   },
-  "NFT_NAME": "Dunklize",
-  "SYMBOL": "Dunklize",
-  "MAX_SUPPLY": 1000,
-  "WEI_COST": 75000000000000000,
-  "DISPLAY_COST": 0.002,
-  "MARKETPLACE": "Opensea",
-  "MARKETPLACE_LINK": "https://opensea.io/collection/dunklize",
   "SHOW_BACKGROUND": false,
   "SAMPLE_URL": "https://gateway.fxhash2.xyz/ipfs/Qmc82PoP6NHKm47YM131W7KoNzQeG1Y9aK5zcT6XSeAuiy/?fxhash=ooeAxrijjjHUzkA98M4Q15F2bKfMYDaFrxrCzAGy7HvZKHwzSd1",
   "LINK_URL": "https://gateway.fxhash2.xyz/ipfs/Qmc82PoP6NHKm47YM131W7KoNzQeG1Y9aK5zcT6XSeAuiy/?fxhash=ooeAxrijjjHUzkA98M4Q15F2bKfMYDaFrxrCzAGy7HvZKHwzSd1"

@@ -65,6 +65,7 @@ export const StyledLogo = styled.img`
   @media (min-width: 767px) {
     width: 400px;
   }
+  border-radius: 20px;
   transition: width 0.5s;
   transition: height 0.5s;
 `;
@@ -91,14 +92,12 @@ export const StyledLink = styled.a`
   text-decoration: none;
 `;
 
-
-
 function App() {
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
-  const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`);
+  const [feedback, setFeedback] = useState(`Click to claim your $XQDOG`);
   const [mintAmount, setMintAmount] = useState(10);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -120,22 +119,17 @@ function App() {
   });
 
   const claimNFTs = () => {
-    setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
+    setFeedback(`Claim your $XQDOG...`);
     setClaimingNft(true);
 
-    var totalvalue = String(data.cost * mintAmount)
 
-    if (mintAmount == 1) {
-      totalvalue = 0
-    }
-    console.log("totalvalue: ", totalvalue)
     blockchain.smartContract.methods
-      .mint(mintAmount)
+      .mint()
       .send({
         // gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
         from: blockchain.account,
-        value: totalvalue,
+        value: 0,
       })
       .once("error", (err) => {
         console.log(err);
@@ -145,7 +139,7 @@ function App() {
       .then((receipt) => {
         console.log(receipt);
         setFeedback(
-          `WOW, the ${CONFIG.NFT_NAME} is yours! go visit Opensea.io to view it.`
+          `WOW, AirDrop Success !!!`
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
@@ -154,24 +148,10 @@ function App() {
     
   };
 
-  const decrementMintAmount = () => {
-    let newMintAmount = mintAmount - 1;
-    if (newMintAmount < 1) {
-      newMintAmount = 1;
-    }
-    setMintAmount(newMintAmount);
-  };
-
-  const incrementMintAmount = () => {
-    let newMintAmount = mintAmount + 1;
-    if (newMintAmount > 20) {
-      newMintAmount = 20;
-    }
-    setMintAmount(newMintAmount);
-  };
 
   const getData = () => {
     if (blockchain.account !== "" && blockchain.smartContract !== null) {
+      
       dispatch(fetchData(blockchain.account));
     } else {
       dispatch(connect());
@@ -209,19 +189,11 @@ function App() {
         <ResponsiveWrapper flex={1} style={{ padding: 88 }} test>
           <s.SpacerLarge />
           <s.Container flex={1} jc={"center"} ai={"center"}>
-          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘a’ activates forward motion on/off</s.TextTitle>
-          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘b’ activates backward motion on/off</s.TextTitle>
-          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘r’ rotates grid 45° </s.TextTitle>
-          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘f’ rotates the grid freely</s.TextTitle>
-          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘p’ switches grid scale on/off </s.TextTitle>
-          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘g’ extra glyphs on/off</s.TextTitle>
-          <s.TextTitle style={{ textAlign: "left", color: "black" }}>‘q’ return to the initial state</s.TextTitle>
+        
 
 
-          {/* <StyledLogo alt={"logo"} src={"/config/images/title.png"} /> */}
-          <StyledHref target="_blank" href={CONFIG.LINK_URL}>#1</StyledHref>
           <s.SpacerSmall />
-            <StyledImg src={CONFIG.SAMPLE_URL} />
+            <StyledLogo src="/config/images/xdog.jpg" />
           </s.Container>
           <s.Container
             flex={1}
@@ -243,7 +215,7 @@ function App() {
                 color: "var(--accent-text)",
               }}
             >
-              {data.totalSupply} / {CONFIG.MAX_SUPPLY}
+              Claim 20,000,000 $XQDOG
             </s.TextTitle>
             <s.TextDescription
               style={{
@@ -256,131 +228,99 @@ function App() {
               </StyledLink>
             </s.TextDescription>
             <s.SpacerSmall />
-            {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
-              <>
-                <s.TextTitle
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  The sale has ended.
-                </s.TextTitle>
-                <s.TextDescription
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  You can still find {CONFIG.NFT_NAME} on
-                </s.TextDescription>
-                <s.SpacerSmall />
-                <StyledLink target={"_blank"} href={CONFIG.MARKETPLACE_LINK}>
-                  {CONFIG.MARKETPLACE}
-                </StyledLink>
-              </>
-            ) : (
-              <>
-                <s.TextTitle
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  Free 1 Per Wallet, {Web3.utils.fromWei(new Web3.utils.BN(data.cost).toString(), 'ether')} ether For More.
-                </s.TextTitle>
-                <s.SpacerXSmall />
-                <s.TextDescription
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  Excluding gas fees.
-                </s.TextDescription>
-                <s.SpacerSmall />
-                {blockchain.account === "" ||
-                blockchain.smartContract === null ? (
-                  <s.Container ai={"center"} jc={"center"}>
-                    <s.TextDescription
-                      style={{
-                        textAlign: "center",
-                        color: "var(--accent-text)",
-                      }}
+            
+            {Number(data.claimed) > 0 ? (
+                  <>
+                    <s.TextTitle
+                      style={{ textAlign: "center", color: "var(--accent-text)" }}
                     >
-                      Connect to the {CONFIG.NETWORK.NAME} network
-                    </s.TextDescription>
+                      You have Claimed $XQDOG already.
+                    </s.TextTitle>
                     <s.SpacerSmall />
-                    <StyledButton
-                      onClick={(e) => {
-                        e.preventDefault();
-                        dispatch(connect());
-                        getData();
-                      }}
-                    >
-                      CONNECT
-                    </StyledButton>
-                    {blockchain.errorMsg !== "" ? (
-                      <>
-                        <s.SpacerSmall />
+                  </>
+                ) : (
+                  <>
+                    
+                    {blockchain.account === "" ||
+                    blockchain.smartContract === null ? (
+                      <s.Container ai={"center"} jc={"center"}>
                         <s.TextDescription
                           style={{
                             textAlign: "center",
                             color: "var(--accent-text)",
                           }}
                         >
-                          {blockchain.errorMsg}
+                          Connect to the {CONFIG.NETWORK.NAME} network
                         </s.TextDescription>
+                        <s.SpacerSmall />
+                        <StyledButton
+                          onClick={(e) => {
+                            e.preventDefault();
+                            dispatch(connect());
+                            getData();
+                          }}
+                        >
+                          CONNECT
+                        </StyledButton>
+                        {blockchain.errorMsg !== "" ? (
+                          <>
+                            <s.SpacerSmall />
+                            <s.TextDescription
+                              style={{
+                                textAlign: "center",
+                                color: "var(--accent-text)",
+                              }}
+                            >
+                              {blockchain.errorMsg}
+                            </s.TextDescription>
+                          </>
+                        ) : null}
+                      </s.Container>
+                    ) : (
+                      <>
+                      {data.canClaim ? (
+                        <>
+                        <s.TextDescription
+                          style={{
+                            textAlign: "center",
+                            color: "var(--accent-text)",
+                          }}
+                        >
+                          {feedback}
+                        </s.TextDescription>
+                        <s.SpacerMedium />
+    
+                        <s.SpacerSmall />
+                        <s.Container ai={"center"} jc={"center"} fd={"row"}>
+                          <StyledButton
+                            disabled={claimingNft ? 1 : 0}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              claimNFTs();
+                              getData();
+                            }}
+                          >
+                            {claimingNft ? "CLAIM" : "C L A I M"}
+                          </StyledButton>
+                        </s.Container>
                       </>
-                    ) : null}
-                  </s.Container>
-                ) : (
-                  <>
-                    <s.TextDescription
-                      style={{
-                        textAlign: "center",
-                        color: "var(--accent-text)",
-                      }}
-                    >
-                      {feedback}
-                    </s.TextDescription>
-                    <s.SpacerMedium />
-                    <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                      <StyledRoundButton
-                        style={{ lineHeight: 0.4 }}
-                        disabled={claimingNft ? 1 : 0}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          decrementMintAmount();
-                        }}
-                      >
-                        -
-                      </StyledRoundButton>
-                      <s.SpacerMedium />
-                      <s.TextDescription
-                        style={{
-                          textAlign: "center",
-                          color: "var(--accent-text)",
-                        }}
-                      >
-                        {mintAmount}
-                      </s.TextDescription>
-                      <s.SpacerMedium />
-                      <StyledRoundButton
-                        disabled={claimingNft ? 1 : 0}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          incrementMintAmount();
-                        }}
-                      >
-                        +
-                      </StyledRoundButton>
-                    </s.Container>
-                    <s.SpacerSmall />
-                    <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                      <StyledButton
-                        disabled={claimingNft ? 1 : 0}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          claimNFTs();
-                          getData();
-                        }}
-                      >
-                        {claimingNft ? "MING" : "M I N T"}
-                      </StyledButton>
-                    </s.Container>
+                      ):(
+                        <>
+                          <s.TextTitle
+                            style={{ textAlign: "center", color: "var(--accent-text)" }}
+                          >
+                            You can't Claimed $XQDOG.
+                          </s.TextTitle>
+                          <s.SpacerSmall />
+                        </>
+                      )}
+                      </>
+                      
+                    )}
                   </>
                 )}
-              </>
-            )}
+            
+            
             <s.SpacerMedium />
           </s.Container>
           
@@ -396,17 +336,6 @@ function App() {
             Please make sure you are connected to the right network (
             {CONFIG.NETWORK.NAME} Mainnet) and the correct address. Please note:
             Once you make the purchase, you cannot undo this action.
-          </s.TextDescription>
-          <s.SpacerSmall />
-          <s.TextDescription
-            style={{
-              textAlign: "center",
-              color: "var(--primary-text)",
-            }}
-          >
-            We have set the gas limit to {CONFIG.GAS_LIMIT} for the contract to
-            successfully mint your NFT. We recommend that you don't lower the
-            gas limit.
           </s.TextDescription>
         </s.Container>
       </s.Container>

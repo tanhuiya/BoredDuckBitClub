@@ -1,7 +1,7 @@
 const initialState = {
   loading: false,
-  totalSupply: 0,
-  cost: 0,
+  claimed: 0,
+  canClaim: false,
   error: false,
   errorMsg: "",
 };
@@ -20,8 +20,8 @@ const dataReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        totalSupply: action.payload.totalSupply,
-        cost: action.payload.cost,
+        claimed: action.payload.claimed,
+        canClaim: action.payload.canClaim,
         error: false,
         errorMsg: "",
       };
