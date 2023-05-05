@@ -90,6 +90,7 @@ export const StyledImg = styled.iframe`
 export const StyledLink = styled.a`
   color: black;
   text-decoration: none;
+  font-size: 25px;
 `;
 
 function App() {
@@ -327,6 +328,11 @@ function App() {
         </ResponsiveWrapper>
         <s.SpacerMedium />
         <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
+          <StyledLink target={"_blank"} style={{color: "black"}} href="https://twitter.com/XQDOG_1">
+                Twitter: https://twitter.com/XQDOG_1
+          </StyledLink>
+          <s.SpacerSmall />
+          <s.SpacerSmall />
           <s.TextDescription
             style={{
               textAlign: "center",
