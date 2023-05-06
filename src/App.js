@@ -216,7 +216,7 @@ function App() {
                 color: "var(--accent-text)",
               }}
             >
-              Claim 20,000,000 $XQDOG
+              Claim 50,000,000 $XQDOG
             </s.TextTitle>
             <s.TextDescription
               style={{
