@@ -1,11 +1,19 @@
 {
-  "CONTRACT_ADDRESS": "0x76780cE3B40971759ab3524385164b16bd787575",
-  "SCAN_LINK": "https://arbiscan.io/address/0x76780cE3B40971759ab3524385164b16bd787575",
+  "CONTRACT_ADDRESS": "0x74F258D1d896f24d7904f77586e7AA82c03D10b1",
+  "FARM_ADDRESS":"0xdbcaf9a04340a1bfb3697ce50ebc7ce6f226f025",
+  "SCAN_LINK": "https://arbiscan.io/address/0x74F258D1d896f24d7904f77586e7AA82c03D10b1",
   "NETWORK": {
-    "NAME": "Arbitrum",
+    "NAME": "ETher",
     "SYMBOL": "ARB",
-    "ID": 42161
+    "ID": 1
   },
+  "NFT_NAME": "DIGER",
+  "SYMBOL": "DIGER",
+  "MAX_SUPPLY": 20000,
+  "MAX_PER_TX": 10,
+  "DISPLAY_COST": "0.001",
+
+
   "SHOW_BACKGROUND": false,
   "SAMPLE_URL": "https://gateway.fxhash2.xyz/ipfs/Qmc82PoP6NHKm47YM131W7KoNzQeG1Y9aK5zcT6XSeAuiy/?fxhash=ooeAxrijjjHUzkA98M4Q15F2bKfMYDaFrxrCzAGy7HvZKHwzSd1",
   "LINK_URL": "https://gateway.fxhash2.xyz/ipfs/Qmc82PoP6NHKm47YM131W7KoNzQeG1Y9aK5zcT6XSeAuiy/?fxhash=ooeAxrijjjHUzkA98M4Q15F2bKfMYDaFrxrCzAGy7HvZKHwzSd1"

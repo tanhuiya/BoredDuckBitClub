@@ -78,6 +78,7 @@ summary,
 time,
 mark,
 audio,
+button,
 video {
   margin: 0;
   padding: 0;
@@ -125,7 +126,7 @@ table {
 
 @font-face {
   font-family: "coder";
-  src: local("coder"), url(font.woff) format("woff");
+  src: local("coder"), url(SYNNovaVFGX.ttf);
 }
 
 body {

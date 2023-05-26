@@ -43,11 +43,18 @@ export const Container = styled.div`
   flex-direction: ${({ fd }) => (fd ? fd : "column")};
   justify-content: ${({ jc }) => (jc ? jc : "flex-start")};
   align-items: ${({ ai }) => (ai ? ai : "flex-start")};
-  background-color: ${({ test }) => (test ? "pink" : "none")};
-  width: 100%;
+  background-color: ${({ bg }) => (bg ? bg: "white")};
+  width: ${({ wid }) => (wid ? wid: "100%")};
   background-image: ${({ image }) => (image ? `url(${image})` : "none")};
   background-size: cover;
   background-position: center;
+`;
+
+export const TextHead = styled.p`
+  color: var(--primary-text);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.8;
 `;
 
 export const TextTitle = styled.p`
@@ -73,4 +80,31 @@ export const StyledClickable = styled.div`
   :active {
     opacity: 0.6;
   }
+`;
+
+export const StyledIcon = styled.img`
+  width: 50px;
+  @media (min-width: 50px) {
+    width: 50px;
+  }
+  border-radius: 25px;
+  transition: width 0.5s;
+  transition: height 0.5s;
+`;
+
+export const StyledImgButton = styled.button`
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-image: ${({ image }) => (image ? `url(${image})` : "none")};
+  // padding: 10px;
+  // font-weight: bold;
+  // font-size: 25px;
+  // color: var(--primary-text);
+  // width: 30px;
+  // height: 30px;
+  // cursor: pointer;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
 `;

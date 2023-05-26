@@ -1,9 +1,16 @@
 // log
 import store from "../store";
+import Web3 from "web3";
 
 const fetchDataRequest = () => {
   return {
     type: "CHECK_DATA_REQUEST",
+  };
+};
+
+const fetchFarmDataRequest = () => {
+  return {
+    type: "CHECK_FARM_DATA_REQUEST",
   };
 };
 
@@ -26,19 +33,58 @@ export const fetchData = (account) => {
     dispatch(fetchDataRequest());
     try {
       console.log("####################")
-      let claimed = await store
+      let totalSupply = await store
         .getState()
-        .blockchain.smartContract.methods.claimed(account)
+        .blockchain.smartContract.methods.totalSupply()
         .call();
-      let canClaim = await store
+      let cost = await store
         .getState()
-        .blockchain.smartContract.methods.canmint(account)
+        .blockchain.smartContract.methods.cost()
         .call();
-      console.log("canclaimeddx:", canClaim)
+
+      let depositArr = await store
+      .getState()
+      .blockchain.farmSmartContract.methods
+        .deposited(account)
+        .call()
+      var deposit = depositArr.toString()
+      if (deposit == "") {
+        deposit = "-"
+      }
+
+      let pending1 = await store
+      .getState()
+      .blockchain.farmSmartContract.methods
+        .pending(account)
+        .call()
+      let pending = Web3.utils.fromWei(pending1, 'ether');
+
+      let userinfo = await store
+      .getState()
+      .blockchain.farmSmartContract.methods
+        .userInfo(account)
+        .call()
+      let claimeds = userinfo["totalClaimed"]
+      let claimed = Web3.utils.fromWei(claimeds, 'ether');
+      console.log(deposit, pending, claimed)
+
+      let rates = await store
+      .getState()
+      .blockchain.farmSmartContract.methods
+        .computerCurrentToken()
+        .call()
+      let rate = Web3.utils.fromWei(rates, 'ether') + " / 30m"
+      console.log(deposit, pending, claimed, rate)
+
       dispatch(
         fetchDataSuccess({
+          totalSupply,
+          cost,
+
+          deposit,
+          pending,
           claimed,
-          canClaim,
+          rate,
         })
       );
     } catch (err) {

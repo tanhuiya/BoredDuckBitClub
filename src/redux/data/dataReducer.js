@@ -1,6 +1,10 @@
 const initialState = {
   loading: false,
-  claimed: 0,
+  deposit: "-",
+  pending: "-",
+  claimed: "-",
+  totalSupply: "-",
+  rate: "-",
   canClaim: false,
   error: false,
   errorMsg: "",
@@ -20,8 +24,14 @@ const dataReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        totalSupply: action.payload.totalSupply,
+        cost: action.payload.cost,
+
+        deposit: action.payload.deposit,
+        pending: action.payload.pending,
         claimed: action.payload.claimed,
-        canClaim: action.payload.canClaim,
+        rate: action.payload.rate,
+
         error: false,
         errorMsg: "",
       };

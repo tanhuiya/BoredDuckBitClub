@@ -1,0 +1,175 @@
+.StakeBlockMainBoxs .StakeBoxBlock {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.StakeBlockMainBoxs .StakeBoxCont {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: calc(var(--stakeWidth) * .056);
+    width: 100%;
+    height: 100%;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeListBetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeListEnd {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: 100%;
+}
+/* 分割块 */
+.StakeBlockMainBoxs .StakeBoxCont .splitBlock {
+    padding: calc(var(--stakeWidth) * .04);
+    width: 100%;
+}
+/* 图标 */
+.StakeBlockMainBoxs .StakeBoxCont .StakeIconBoxs {
+    display: block;
+    position: relative;
+    width: calc(var(--stakeWidth) * .3);
+    height: calc(var(--stakeWidth) * .3);
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeIconBoxs .StakeIconBox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: calc(var(--stakeWidth) * .04);
+    padding: calc(var(--stakeWidth) * .014);
+    width: calc(100% - (calc(var(--stakeWidth) * .04) * 2));
+    height: calc(100% - (calc(var(--stakeWidth) * .04) * 2));
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeIconBoxs .StakeIconBox .StakeIcon {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 50%;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeIconBoxs .StakeIconBoxBlock,
+.StakeBlockMainBoxs .StakeBoxCont .StakeIconBoxs .StakeIconBox .StakeBoxBlock {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeIconBoxs .StakeIconBox .StakeIconImg {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10%;
+    width: 80%;
+    height: 80%;
+}
+/* 正文内容 */
+.StakeBlockMainBoxs .StakeBoxCont .TextList {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    padding: calc(var(--stakeWidth) * .014) 0;
+}
+.StakeBlockMainBoxs .StakeBoxCont .TextList span {
+    display: block;
+    font-size: calc(var(--stakeWidth) * .0395);
+    color: #fff;
+    white-space: nowrap;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox {
+    padding: calc(var(--stakeWidth) * .014) 0;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox>div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox>div:hover {
+    opacity: .8;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox>div span {
+    display: block;
+    padding: 0 3%;
+    line-height: calc(var(--stakeWidth) * .08);
+    font-size: calc(var(--stakeWidth) * .0395);
+    color: #fff;
+    white-space: nowrap;
+}
+/* 标题 */
+.StakeBlockMainBoxs .StakeBoxCont .StakeTitleBox {
+    padding: calc(var(--stakeWidth) * .028) 0;
+    text-align: right;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeTitleBox .TextList span {
+    line-height: calc(var(--stakeWidth) * .05);
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeTitleBox .TextList:first-child span{
+    line-height: calc(var(--stakeWidth) * .08);
+    font-size: calc(var(--stakeWidth) * .0675);
+    font-family: 'Uni_Sans_Heavy_Italic';
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeTextCountDownBox .TextList span{
+    line-height: calc(var(--stakeWidth) * .0675);
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeTextCountDownBox .TextList .lockIcon{
+    display: block;
+    margin-right: calc(var(--stakeWidth) * .014);
+    width: calc(var(--stakeWidth) * .045);
+    height: calc(var(--stakeWidth) * .045);
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeTextApyBox .TextList span,
+.StakeBlockMainBoxs .StakeBoxCont .StakeTextAprBox .TextList span{
+    line-height: calc(var(--stakeWidth) * .0675);
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeTextStakeingBox .TextList span{
+    padding-bottom: calc(var(--stakeWidth) * .028);
+    line-height: calc(var(--stakeWidth) * .0675);
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeTextReceiveTextBox .TextList span{
+    white-space: normal;
+    text-align: right;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeTextTotalBox .TextList span{
+    padding-bottom: calc(var(--stakeWidth) * .042);
+    line-height: calc(var(--stakeWidth) * .0675);
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeTextLinkBox .TextList span{
+    line-height: calc(var(--stakeWidth) * .084);
+    color: #0bf;
+    cursor: pointer;
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeTextLinkBox .TextList span:hover{
+    opacity: .8;
+}
+/* 按钮 */
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox .harvestToButton,
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox .receiveToButton {
+    width: auto;
+    min-width: calc(var(--stakeWidth) * .225);
+    height: calc(var(--stakeWidth) * .085);
+    background-color: #cccc;
+    border-radius: calc(var(--stakeWidth) * .085 / 2);
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox .harvestToButton.active,
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox .receiveToButton.active {
+    background-image: linear-gradient(-90deg, #002B5C , #113D69);
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox .redeemToButton,
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox .stakingToButton {
+    width: calc(var(--stakeWidth) * .252);
+    height: calc(var(--stakeWidth) * .112);
+}
+.StakeBlockMainBoxs .StakeBoxCont .StakeButtonBox .linkToButton {
+    width: calc(var(--stakeWidth) * .36);
+    height: calc(var(--stakeWidth) * .085);
+    border: solid 1px #fff;
+    border-radius: calc(var(--stakeWidth) * .085 / 2);
+}

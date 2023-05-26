@@ -2,7 +2,7 @@
 import Web3EthContract from "web3-eth-contract";
 import Web3 from "web3";
 // log
-import { fetchData } from "../data/dataActions";
+import { fetchData, fetchStakeData } from "../data/dataActions";
 
 const connectRequest = () => {
   return {
@@ -35,7 +35,7 @@ export const connect = () => {
   return async (dispatch) => {
     dispatch(connectRequest());
     console.log("connecting")
-    const abiResponse = await fetch("/config/Dunk.json", {
+    const abiResponse = await fetch("/config/NFT.json", {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -43,6 +43,16 @@ export const connect = () => {
     });
 
     const abi = await abiResponse.json();
+
+    const farmAbiResponse = await fetch("/config/Farm.json", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    });
+
+    const farmAbi = await farmAbiResponse.json();
+
     const configResponse = await fetch("/config/config.json", {
       headers: {
         "Content-Type": "application/json",
@@ -67,10 +77,16 @@ export const connect = () => {
             abi,
             CONFIG.CONTRACT_ADDRESS
           );
+          const FarmSmartContractObj = new Web3EthContract(
+            farmAbi,
+            CONFIG.FARM_ADDRESS
+          );
+          
           dispatch(
             connectSuccess({
               account: accounts[0],
               smartContract: SmartContractObj,
+              farmSmartContract: FarmSmartContractObj,
               web3: web3,
             })
           );
@@ -89,6 +105,8 @@ export const connect = () => {
       } catch (err) {
         dispatch(connectFailed("Something went wrong."));
       }
+      
+      console.log("connect success")
     } else {
       dispatch(connectFailed("Install Metamask."));
     }

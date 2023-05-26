@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { connect } from "./redux/blockchain/blockchainActions";
-import { fetchData } from "./redux/data/dataActions";
+import { fetchData, fetchStakeData  } from "./redux/data/dataActions";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
 import Web3 from "web3";
+import './index.css'
 
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
@@ -13,10 +14,11 @@ export const StyledButton = styled.button`
   padding: 10px;
   border-radius: 10px;
   border: 10px;
-  border-color: white;
+  border-color: black;
   background-color: black;
   padding: 10px;
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 20px;
   color: var(--secondary-text);
   width: 100px;
   cursor: pointer;
@@ -32,12 +34,12 @@ export const StyledButton = styled.button`
 
 export const StyledRoundButton = styled.button`
   padding: 10px;
-  border-radius: 30%;
+  border-radius: 10%;
   border: none;
-  background-color: var(--primary);
+  background-color: var(--accent-text);
   padding: 10px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 25px;
   color: var(--primary-text);
   width: 30px;
   height: 30px;
@@ -45,7 +47,6 @@ export const StyledRoundButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-
 `;
 
 export const ResponsiveWrapper = styled.div`
@@ -54,21 +55,23 @@ export const ResponsiveWrapper = styled.div`
   flex-direction: column;
   justify-content: stretched;
   align-items: stretched;
-  width: 100%;
+  width: ${({ wid }) => (wid ? wid : "100%")};
   @media (min-width: 767px) {
     flex-direction: row;
   }
 `;
 
 export const StyledLogo = styled.img`
-  width: 300px;
-  @media (min-width: 767px) {
-    width: 400px;
+  width: 150px;
+  @media (min-width: 150px) {
+    width: 150px;
   }
-  border-radius: 20px;
+  border-radius: 10px;
   transition: width 0.5s;
   transition: height 0.5s;
 `;
+
+
 
 export const StyledHref = styled.a`
   display: block;
@@ -88,9 +91,9 @@ export const StyledImg = styled.iframe`
 `;
 
 export const StyledLink = styled.a`
-  color: black;
+  tex0color: "var(--accent-text)";
   text-decoration: none;
-  font-size: 25px;
+  font-size: 20px;
 `;
 
 function App() {
@@ -108,6 +111,7 @@ function App() {
       SYMBOL: "",
       ID: 0,
     },
+    MAX_PER_TX: 0,
     NFT_NAME: "",
     SYMBOL: "",
     DISPLAY_COST: 0,
@@ -119,18 +123,68 @@ function App() {
     LINK_URL: ""
   });
 
+
+  const Stake = () => {
+    if (blockchain.farmSmartContract == null) {
+      return
+    }
+    setFeedback(`Staking`);
+    blockchain.farmSmartContract.methods
+    .stake()
+    .send({
+      // gasLimit: String(totalGasLimit),
+      to: CONFIG.CONTRACT_FARM_ADDRESS,
+      from: blockchain.account,
+    }).once("error", (err) => {
+      console.log(err);
+      setFeedback("Sorry, something went wrong please try again later.");
+    })
+    .then((receipt) => {
+      console.log(receipt);
+      setFeedback(
+        `Staking Success !!!`
+      );
+      dispatch(fetchData(blockchain.account));
+    });
+  }
+
+  const UnStake = () => {
+    if (blockchain.farmSmartContract == null) {
+      return
+    }
+    setFeedback(`UnStaking`);
+    blockchain.farmSmartContract.methods
+    .unStake()
+    .send({
+      // gasLimit: String(totalGasLimit),
+      to: CONFIG.CONTRACT_FARM_ADDRESS,
+      from: blockchain.account,
+    }).once("error", (err) => {
+      console.log(err);
+      setFeedback("Sorry, something went wrong please try again later.");
+    })
+    .then((receipt) => {
+      console.log(receipt);
+      setFeedback(
+        `UnStaking Success !!!`
+      );
+      dispatch(fetchData(blockchain.account));
+    });
+  }
+
   const claimNFTs = () => {
-    setFeedback(`Claim your $XQDOG...`);
+    setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
 
+    var totalvalue = String(data.cost * mintAmount)
 
     blockchain.smartContract.methods
-      .mint()
+      .mint(mintAmount)
       .send({
         // gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
         from: blockchain.account,
-        value: 0,
+        value: totalvalue,
       })
       .once("error", (err) => {
         console.log(err);
@@ -140,19 +194,33 @@ function App() {
       .then((receipt) => {
         console.log(receipt);
         setFeedback(
-          `WOW, AirDrop Success !!!`
+          `WOW, Mint Success !!!`
         );
         setClaimingNft(false);
         dispatch(fetchData(blockchain.account));
       });
-    
-    
   };
 
 
+
+  const decrementMintAmount = () => {
+    let newMintAmount = mintAmount - 1;
+    if (newMintAmount < 1) {
+      newMintAmount = 1;
+    }
+    setMintAmount(newMintAmount);
+  };
+
+  const incrementMintAmount = () => {
+    let newMintAmount = mintAmount + 1;
+    if (newMintAmount > CONFIG.MAX_PER_TX) {
+      newMintAmount = CONFIG.MAX_PER_TX;
+    }
+    setMintAmount(newMintAmount);
+  };
+
   const getData = () => {
     if (blockchain.account !== "" && blockchain.smartContract !== null) {
-      
       dispatch(fetchData(blockchain.account));
     } else {
       dispatch(connect());
@@ -180,163 +248,290 @@ function App() {
 
   return (
     <s.Screen>
+
       <s.Container
         flex={1}
         ai={"center"}
-        style={{ padding: 24, backgroundColor: "white" ,}}
+        jc={"center"}
+        style={{ padding: 24, backgroundColor: "black" }}
         image={CONFIG.SHOW_BACKGROUND ? "/config/images/bg6.png" : null}
       >
-        
-        <ResponsiveWrapper flex={1} style={{ padding: 88 }} test>
+
+        <ResponsiveWrapper wid={"1500px"} flex={1} style={{ padding: "100px" }} test>
           <s.SpacerLarge />
-          <s.Container flex={1} jc={"center"} ai={"center"}>
-        
+          <s.Container flex={1} jc={"left"} ai={"top"} bg={"black"} style={{ marginLeft: 50 }}>
+            <s.SpacerSmall />
+            <StyledLogo src="/config/images/icon.jpg" />
+            <s.TextTitle
+              style={{ textAlign: "left", fontSize: 60, fontWeight: "bold", color: "white" }}
+            >{CONFIG.NFT_NAME} PublicSale
+            </s.TextTitle>
+            <s.TextSubTitle
+              style={{ textAlign: "left", fontSize: 25, fontWeight: "bold", color: "white" }}
+            >The Most Authentic {CONFIG.NFT_NAME} Spirit on Arbitrum
+            </s.TextSubTitle>
+            <s.SpacerLarge />
+            <s.Container flex={1} jc={"left"} fd={"row"} bg={"black"}>
+              <s.StyledIcon style={{}} src="/config/images/twitter.svg"
+              onClick={(e) => {
+                const w = window.open("about:blank")
+                w.location.href = "https://twitter.com/DIGER_COIN"
+              }} />
+              <s.StyledIcon style={{ marginLeft: 10 }} src="/config/images/arb.svg" 
+              onClick={(e) => {
+                const w = window.open("about:blank")
+                w.location.href = "https://arbiscan.io/address/0x74f258d1d896f24d7904f77586e7aa82c03d10b1"
+              }}/>
+              <s.StyledIcon style={{ marginLeft: 10 }} src="/config/images/os.svg" 
+              onClick={(e) => {
+                const w = window.open("about:blank")
+                w.location.href = "https://opensea.io/collection/diger-og"
+              }}/>
+            </s.Container>
 
-
-          <s.SpacerSmall />
-            <StyledLogo src="/config/images/xdog.jpg" />
           </s.Container>
           <s.Container
             flex={1}
-            jc={"center"}
-            ai={"center"}
+            bg={"rgb(255 255 255/0.1)"}
+            jc={"left"}
+            ai={"top"}
             style={{
-              backgroundColor: "black",
-              padding: 24,
+              padding: 50,
               borderRadius: 24,
+              margin: 80,
+              marginTop: 30,
+              marginBottom: 30,
               // border: "4px dashed var(--secondary)",
               // boxShadow: "0px 5px 11px 2px rgba(0,0,0,0.7)",
             }}
           >
             <s.TextTitle
               style={{
-                textAlign: "center",
-                fontSize: 50,
+                textAlign: "left",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
+                fontSize: "35px",
+              }}
+            >
+              {CONFIG.NFT_NAME} OG Collection
+            </s.TextTitle>
+            
+            <StyledLink target={"_blank"} href={CONFIG.SCAN_LINK} style={{ color: "white" }}>
+              {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
+            </StyledLink>
+            <s.SpacerLarge />
+            <></>
+
+            <s.TextTitle
+              style={{
+                textAlign: "left",
                 fontWeight: "bold",
                 color: "var(--accent-text)",
               }}
             >
-              Claim 20,000,000 $XQDOG
+              Price: {CONFIG.DISPLAY_COST} ether
             </s.TextTitle>
-            <s.TextDescription
+            <s.TextTitle
               style={{
-                textAlign: "center",
-                color: "var(--primary-text)",
+                textAlign: "left",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
               }}
             >
-              <StyledLink target={"_blank"} style={{color: "white"}} href={CONFIG.SCAN_LINK}>
-                {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
-              </StyledLink>
-            </s.TextDescription>
-            <s.SpacerSmall />
-            
-            {Number(data.claimed) > 0 ? (
-                  <>
-                    <s.TextTitle
-                      style={{ textAlign: "center", color: "var(--accent-text)" }}
+              Limit: {CONFIG.MAX_PER_TX}  Per Tx
+            </s.TextTitle>
+            <>
+              {blockchain.account === "" ||
+                blockchain.smartContract === null ? (
+                <>
+                  <s.SpacerLarge />
+                  <s.TextDescription
+                    style={{
+                      textAlign: "left",
+                      color: "var(--accent-text)",
+                    }}
+                  >
+                    Connect to the {CONFIG.NETWORK.NAME} network
+                  </s.TextDescription>
+                  <s.SpacerSmall />
+                  <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "50%", height: 50, weight: "700" }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      dispatch(connect());
+                      getData();
+                    }}
+                  >
+                    CONNECT WALLET
+                  </StyledButton>
+                  {blockchain.errorMsg !== "" ? (
+                    <>
+                      <s.SpacerSmall />
+                      <s.TextDescription
+                        style={{
+                          textAlign: "left",
+                          color: "var(--secondary)"
+                        }}
+                      >
+                        {blockchain.errorMsg}
+                      </s.TextDescription>
+                    </>
+                  ) : null}
+                </>
+              ) : (
+                <>
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                    }}
+                  >
+                    {feedback}
+                  </s.TextDescription>
+                  <s.TextTitle
+                    style={{
+                      textAlign: "left",
+                      fontSize: 30,
+                      fontWeight: "bold",
+                      color: "var(--accent-text)",
+                    }}
+                  >
+                    {data.totalSupply} / {CONFIG.MAX_SUPPLY}
+                  </s.TextTitle>
+                  <s.SpacerMedium />
+
+                  <s.Container ai={"left"} jc={"left"} fd={"row"} bg={"rgb(255 255 255/0)"}>
+                    <StyledRoundButton
+                      style={{ lineHeight: 0.4, marginLeft: "10px" }}
+                      disabled={claimingNft ? 1 : 0}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        decrementMintAmount();
+                      }}
                     >
-                      You have Claimed $XQDOG already.
+                      -
+                    </StyledRoundButton>
+                    <s.SpacerLarge />
+                    <s.TextTitle
+                      style={{
+                        textAlign: "center",
+                        color: "var(--accent-text)",
+                      }}
+                    >
+                      {mintAmount}
                     </s.TextTitle>
-                    <s.SpacerSmall />
-                  </>
-                ) : (
-                  <>
-                    
-                    {blockchain.account === "" ||
-                    blockchain.smartContract === null ? (
-                      <s.Container ai={"center"} jc={"center"}>
-                        <s.TextDescription
-                          style={{
-                            textAlign: "center",
-                            color: "var(--accent-text)",
-                          }}
-                        >
-                          Connect to the {CONFIG.NETWORK.NAME} network
-                        </s.TextDescription>
-                        <s.SpacerSmall />
-                        <StyledButton
-                          onClick={(e) => {
-                            e.preventDefault();
-                            dispatch(connect());
-                            getData();
-                          }}
-                        >
-                          CONNECT
-                        </StyledButton>
-                        {blockchain.errorMsg !== "" ? (
-                          <>
-                            <s.SpacerSmall />
-                            <s.TextDescription
-                              style={{
-                                textAlign: "center",
-                                color: "var(--accent-text)",
-                              }}
-                            >
-                              {blockchain.errorMsg}
-                            </s.TextDescription>
-                          </>
-                        ) : null}
-                      </s.Container>
-                    ) : (
-                      <>
-                      {data.canClaim ? (
-                        <>
-                        <s.TextDescription
-                          style={{
-                            textAlign: "center",
-                            color: "var(--accent-text)",
-                          }}
-                        >
-                          {feedback}
-                        </s.TextDescription>
-                        <s.SpacerMedium />
-    
-                        <s.SpacerSmall />
-                        <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                          <StyledButton
-                            disabled={claimingNft ? 1 : 0}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              claimNFTs();
-                              getData();
-                            }}
-                          >
-                            {claimingNft ? "CLAIM" : "C L A I M"}
-                          </StyledButton>
-                        </s.Container>
-                      </>
-                      ):(
-                        <>
-                          <s.TextTitle
-                            style={{ textAlign: "center", color: "var(--accent-text)" }}
-                          >
-                            You can't Claimed $XQDOG.
-                          </s.TextTitle>
-                          <s.SpacerSmall />
-                        </>
-                      )}
-                      </>
-                      
-                    )}
-                  </>
-                )}
-            
-            
-            <s.SpacerMedium />
+                    <s.SpacerLarge />
+                    <StyledRoundButton
+                      disabled={claimingNft ? 1 : 0}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        incrementMintAmount();
+                      }}
+                    >
+                      +
+                    </StyledRoundButton>
+                  </s.Container>
+                  <s.SpacerLarge />
+                  <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "200px", height: 50, weight: "700", font: "50px" }}
+                    disabled={claimingNft ? 1 : 0}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      claimNFTs();
+                      getData();
+                    }}
+                  >
+                    {claimingNft ? "MINTING": "MINT"}
+                  </StyledButton>
+                </>
+              )}
+            </>
           </s.Container>
-          
         </ResponsiveWrapper>
+
+
+        <ResponsiveWrapper wid={"1500px"} flex={1} style={{ paddingTop: "0px" }} test>
+          <s.Container
+            wid={"50%"} flex={1} jc={"center"} ai={"center"} style={{
+              padding: 50,
+              marginLeft: 180,
+              marginRight: 180,
+              borderRadius: 24,
+            }}
+          >
+
+            <s.TextHead >Stake for ${CONFIG.NFT_NAME}</s.TextHead>
+            <s.Container
+              flex={1} fd={"row"} jc={"center"} ai={"center"}
+            >
+              <s.Container
+                flex={1} jc={"left"} ai={"left"} style={{ marginLeft: 130 }}
+              >
+                <s.TextTitle>Living Rate</s.TextTitle>
+                <s.SpacerMedium></s.SpacerMedium>
+                <s.TextTitle>MyDeposit NFT</s.TextTitle>
+                <s.SpacerMedium></s.SpacerMedium>
+                <s.TextTitle>RewardClaimed</s.TextTitle>
+                <s.SpacerMedium></s.SpacerMedium>
+                <s.TextTitle>RewardPending</s.TextTitle>
+              </s.Container>
+
+              <s.Container
+                flex={1} jc={"center"} ai={"center"}
+              >
+                <s.TextTitle>---------</s.TextTitle>
+                <s.SpacerMedium></s.SpacerMedium>
+                <s.TextTitle>---------</s.TextTitle>
+                <s.SpacerMedium></s.SpacerMedium>
+                <s.TextTitle>---------</s.TextTitle>
+                <s.SpacerMedium></s.SpacerMedium>
+                <s.TextTitle>---------</s.TextTitle>
+              </s.Container>
+
+              <s.Container
+                flex={1} jc={"right"} ai={"right"} style={{ marginRight: 130 }}
+              >
+                <s.TextTitle style={{ textAlign: "right" }}>{data.rate}</s.TextTitle>
+                <s.SpacerMedium></s.SpacerMedium>
+                <s.TextTitle style={{ textAlign: "right" }}>{data.deposit}</s.TextTitle>
+                <s.SpacerMedium></s.SpacerMedium>
+                <s.TextTitle style={{ textAlign: "right" }}>{data.claimed}</s.TextTitle>
+                <s.SpacerMedium></s.SpacerMedium>
+                <s.TextTitle style={{ textAlign: "right" }}>{data.pending}</s.TextTitle>
+              </s.Container>
+            </s.Container>
+
+            <s.SpacerMedium />
+            <s.Container
+              flex={1} jc={"center"} ai={"center"} fd={"row"}
+            >
+              <StyledButton
+                disabled={blockchain.account === "" ? 1 : 0}
+                onClick={(e) => {
+                  e.preventDefault();
+                  Stake();
+                  getData();
+                }}
+              >Stake</StyledButton>
+              <s.SpacerLarge />
+              <StyledButton
+                disabled={blockchain.account === "" ? 1 : 0}
+                onClick={(e) => {
+                  e.preventDefault();
+                  UnStake();
+                  getData();
+                }}
+              >Claim</StyledButton>
+            </s.Container>
+          </s.Container>
+
+        </ResponsiveWrapper>
+
+
         <s.SpacerMedium />
-        <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
-          <StyledLink target={"_blank"} style={{color: "black"}} href="https://twitter.com/XQDOG_1">
-                Twitter: https://twitter.com/XQDOG_1
-          </StyledLink>
-          <s.SpacerSmall />
+        <s.Container jc={"center"} ai={"center"} bg={"black"} style={{ width: "70%" }}>
           <s.SpacerSmall />
           <s.TextDescription
             style={{
               textAlign: "center",
-              color: "var(--primary-text)",
+              color: "white",
             }}
           >
             Please make sure you are connected to the right network (
@@ -344,9 +539,12 @@ function App() {
             Once you make the purchase, you cannot undo this action.
           </s.TextDescription>
         </s.Container>
+
       </s.Container>
     </s.Screen>
   );
 }
+
+
 
 export default App;
