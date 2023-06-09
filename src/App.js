@@ -294,7 +294,7 @@ function App() {
               <s.StyledIcon style={{ marginLeft: 10 }} src="/config/images/os.svg" 
               onClick={(e) => {
                 const w = window.open("about:blank")
-                w.location.href = "https://opensea.io/collection/"
+                w.location.href = "https://opensea.io/collection/r-erc"
               }}/>
             </s.Container>
 
