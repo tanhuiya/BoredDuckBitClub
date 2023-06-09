@@ -1,16 +1,15 @@
 {
-  "CONTRACT_ADDRESS": "0x74F258D1d896f24d7904f77586e7AA82c03D10b1",
-  "FARM_ADDRESS":"0xdbcaf9a04340a1bfb3697ce50ebc7ce6f226f025",
-  "SCAN_LINK": "https://arbiscan.io/address/0x74F258D1d896f24d7904f77586e7AA82c03D10b1",
+  "CONTRACT_ADDRESS": "0x7f47A3903e099989DAbdf866403CBa8EF0373019",
+  "SCAN_LINK": "https://etherscan.io/address/0x7f47A3903e099989DAbdf866403CBa8EF0373019",
   "NETWORK": {
-    "NAME": "ETher",
-    "SYMBOL": "ARB",
+    "NAME": "Ether",
+    "SYMBOL": "ETH",
     "ID": 1
   },
-  "NFT_NAME": "DIGER",
-  "SYMBOL": "DIGER",
-  "MAX_SUPPLY": 20000,
-  "MAX_PER_TX": 10,
+  "NFT_NAME": "R-ERC",
+  "SYMBOL": "RERC",
+  "MAX_SUPPLY": 42000,
+  "MAX_PER_TX": 3,
   "DISPLAY_COST": "0.001",
 
 

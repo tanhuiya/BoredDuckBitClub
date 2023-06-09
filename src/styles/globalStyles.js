@@ -76,6 +76,15 @@ export const TextDescription = styled.p`
   line-height: 1.6;
 `;
 
+export const TextInput = styled.input`
+  color: var(--primary-text);
+  font-size: 18px;
+  line-height: 1.6;
+  height: 40px;
+  border: 3px solid #ccc;
+  border-radius: 3px;
+`;
+
 export const StyledClickable = styled.div`
   :active {
     opacity: 0.6;

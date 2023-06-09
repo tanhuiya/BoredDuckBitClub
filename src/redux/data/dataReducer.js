@@ -4,6 +4,7 @@ const initialState = {
   pending: "-",
   claimed: "-",
   totalSupply: "-",
+  totalGoldenSupply: "-",
   rate: "-",
   canClaim: false,
   error: false,
@@ -25,6 +26,7 @@ const dataReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         totalSupply: action.payload.totalSupply,
+        totalGoldenSupply: action.payload.totalGoldenSupply,
         cost: action.payload.cost,
 
         deposit: action.payload.deposit,

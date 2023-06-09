@@ -176,15 +176,15 @@ function App() {
     setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
     setClaimingNft(true);
 
-    var totalvalue = String(data.cost * mintAmount)
+    // var totalvalue = String(data.cost * mintAmount)
 
     blockchain.smartContract.methods
-      .mint(mintAmount)
+      .mint(3)
       .send({
         // gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
         from: blockchain.account,
-        value: totalvalue,
+        // value: totalvalue,
       })
       .once("error", (err) => {
         console.log(err);
@@ -264,28 +264,37 @@ function App() {
             <StyledLogo src="/config/images/icon.jpg" />
             <s.TextTitle
               style={{ textAlign: "left", fontSize: 60, fontWeight: "bold", color: "white" }}
-            >{CONFIG.NFT_NAME} PublicSale
+            >{CONFIG.NFT_NAME}
+            </s.TextTitle>
+            <s.TextTitle
+              style={{ textAlign: "left", fontSize: 60, fontWeight: "bold", color: "white" }}
+            >PublicSale
             </s.TextTitle>
             <s.TextSubTitle
               style={{ textAlign: "left", fontSize: 25, fontWeight: "bold", color: "white" }}
-            >The Most Authentic {CONFIG.NFT_NAME} Spirit on Arbitrum
+            >Social-experiment
+            </s.TextSubTitle>
+            <s.TextSubTitle
+              style={{ textAlign: "left", fontSize: 25, fontWeight: "bold", color: "white" }}
+            >
+            Absolutely UNFAIR way of launching.
             </s.TextSubTitle>
             <s.SpacerLarge />
             <s.Container flex={1} jc={"left"} fd={"row"} bg={"black"}>
               <s.StyledIcon style={{}} src="/config/images/twitter.svg"
               onClick={(e) => {
                 const w = window.open("about:blank")
-                w.location.href = "https://twitter.com/DIGER_COIN"
+                w.location.href = "https://twitter.com/RERC_20"
               }} />
-              <s.StyledIcon style={{ marginLeft: 10 }} src="/config/images/arb.svg" 
+              <s.StyledIcon style={{ marginLeft: 10 }} src="/config/images/etherscan.png" 
               onClick={(e) => {
                 const w = window.open("about:blank")
-                w.location.href = "https://arbiscan.io/address/0x74f258d1d896f24d7904f77586e7aa82c03d10b1"
+                w.location.href = "https://etherscan.io/address/0x7f47A3903e099989DAbdf866403CBa8EF0373019"
               }}/>
               <s.StyledIcon style={{ marginLeft: 10 }} src="/config/images/os.svg" 
               onClick={(e) => {
                 const w = window.open("about:blank")
-                w.location.href = "https://opensea.io/collection/diger-og"
+                w.location.href = "https://opensea.io/collection/"
               }}/>
             </s.Container>
 
@@ -329,7 +338,7 @@ function App() {
                 color: "var(--accent-text)",
               }}
             >
-              Price: {CONFIG.DISPLAY_COST} ether
+              Price: Free
             </s.TextTitle>
             <s.TextTitle
               style={{
@@ -338,7 +347,7 @@ function App() {
                 color: "var(--accent-text)",
               }}
             >
-              Limit: {CONFIG.MAX_PER_TX}  Per Tx
+              Tickets For: {CONFIG.MAX_PER_TX}
             </s.TextTitle>
             <>
               {blockchain.account === "" ||
@@ -394,11 +403,20 @@ function App() {
                       color: "var(--accent-text)",
                     }}
                   >
-                    {data.totalSupply} / {CONFIG.MAX_SUPPLY}
+                   Total: {data.totalSupply} / {CONFIG.MAX_SUPPLY}
                   </s.TextTitle>
                   <s.SpacerMedium />
-
-                  <s.Container ai={"left"} jc={"left"} fd={"row"} bg={"rgb(255 255 255/0)"}>
+                  <s.TextTitle
+                    style={{
+                      textAlign: "left",
+                      fontSize: 30,
+                      fontWeight: "bold",
+                      color: "var(--accent-text)",
+                    }}
+                  >
+                   Golden: {data.totalGoldenSupply} / 21000
+                  </s.TextTitle>
+                  {/* <s.Container ai={"left"} jc={"left"} fd={"row"} bg={"rgb(255 255 255/0)"}>
                     <StyledRoundButton
                       style={{ lineHeight: 0.4, marginLeft: "10px" }}
                       disabled={claimingNft ? 1 : 0}
@@ -428,7 +446,7 @@ function App() {
                     >
                       +
                     </StyledRoundButton>
-                  </s.Container>
+                  </s.Container> */}
                   <s.SpacerLarge />
                   <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "200px", height: 50, weight: "700", font: "50px" }}
                     disabled={claimingNft ? 1 : 0}
@@ -438,7 +456,7 @@ function App() {
                       getData();
                     }}
                   >
-                    {claimingNft ? "MINTING": "MINT"}
+                    {claimingNft ? "CLAIMING": "CLAIM"}
                   </StyledButton>
                 </>
               )}
@@ -449,77 +467,26 @@ function App() {
 
         <ResponsiveWrapper wid={"1500px"} flex={1} style={{ paddingTop: "0px" }} test>
           <s.Container
-            wid={"50%"} flex={1} jc={"center"} ai={"center"} style={{
+            wid={"50%"} flex={1} jc={"center"} ai={"left"} style={{
               padding: 50,
+              paddingTop: 0,
               marginLeft: 180,
               marginRight: 180,
               borderRadius: 24,
             }}
           >
 
-            <s.TextHead >Stake for ${CONFIG.NFT_NAME}</s.TextHead>
-            <s.Container
-              flex={1} fd={"row"} jc={"center"} ai={"center"}
-            >
-              <s.Container
-                flex={1} jc={"left"} ai={"left"} style={{ marginLeft: 130 }}
-              >
-                <s.TextTitle>Living Rate</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle>MyDeposit NFT</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle>RewardClaimed</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle>RewardPending</s.TextTitle>
-              </s.Container>
-
-              <s.Container
-                flex={1} jc={"center"} ai={"center"}
-              >
-                <s.TextTitle>---------</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle>---------</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle>---------</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle>---------</s.TextTitle>
-              </s.Container>
-
-              <s.Container
-                flex={1} jc={"right"} ai={"right"} style={{ marginRight: 130 }}
-              >
-                <s.TextTitle style={{ textAlign: "right" }}>{data.rate}</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle style={{ textAlign: "right" }}>{data.deposit}</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle style={{ textAlign: "right" }}>{data.claimed}</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle style={{ textAlign: "right" }}>{data.pending}</s.TextTitle>
-              </s.Container>
-            </s.Container>
-
+            <s.TextHead >Dicing Game - Not Open</s.TextHead>
             <s.SpacerMedium />
-            <s.Container
-              flex={1} jc={"center"} ai={"center"} fd={"row"}
-            >
-              <StyledButton
-                disabled={blockchain.account === "" ? 1 : 0}
-                onClick={(e) => {
-                  e.preventDefault();
-                  Stake();
-                  getData();
-                }}
-              >Stake</StyledButton>
-              <s.SpacerLarge />
-              <StyledButton
-                disabled={blockchain.account === "" ? 1 : 0}
-                onClick={(e) => {
-                  e.preventDefault();
-                  UnStake();
-                  getData();
-                }}
-              >Claim</StyledButton>
-            </s.Container>
+            <s.TextInput placeholder=" amount"></s.TextInput>
+            <s.SpacerMedium />
+            <StyledButton 
+            style={{width:"200px"}}
+            onClick={(e) => {
+              const w = window.open("about:blank")
+              w.location.href = "https://etherscan.io/block/countdown/17342000"
+            }}>Snapshot</StyledButton>
+            
           </s.Container>
 
         </ResponsiveWrapper>
