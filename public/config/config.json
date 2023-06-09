@@ -9,7 +9,7 @@
   "NFT_NAME": "R-ERC",
   "SYMBOL": "RERC",
   "MAX_SUPPLY": 42000,
-  "MAX_PER_TX": 3,
+  "MAX_PER_TX": 10,
   "DISPLAY_COST": "0",
 
 

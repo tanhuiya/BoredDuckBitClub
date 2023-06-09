@@ -179,7 +179,7 @@ function App() {
     // var totalvalue = String(data.cost * mintAmount)
 
     blockchain.smartContract.methods
-      .mint(3)
+      .mint(10)
       .send({
         // gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
