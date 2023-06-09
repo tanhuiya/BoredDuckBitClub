@@ -10,7 +10,7 @@
   "SYMBOL": "RERC",
   "MAX_SUPPLY": 42000,
   "MAX_PER_TX": 3,
-  "DISPLAY_COST": "0.001",
+  "DISPLAY_COST": "0",
 
 
   "SHOW_BACKGROUND": false,
