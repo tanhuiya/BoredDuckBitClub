@@ -491,7 +491,7 @@ function App() {
                     {claimingNft ? "MINTING": "MINT"}
                   </StyledButton>
                   <s.SpacerLarge />
-                  <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "200px", height: 50, weight: "700", font: "50px" }}
+                  {/* <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "200px", height: 50, weight: "700", font: "50px" }}
                     disabled={claimingNft ? 1 : 0}
                     onClick={(e) => {
                       e.preventDefault();
@@ -499,7 +499,7 @@ function App() {
                     }}
                   >
                     Whitelist Claim
-                  </StyledButton>
+                  </StyledButton> */}
                 </>
               )}
             </>
