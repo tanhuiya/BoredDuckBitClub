@@ -147,10 +147,15 @@ function App() {
     });
   }
 
-  const Stake = () => {
+  const Stake = async () => {
     if (blockchain.farmSmartContract == null) {
       return
     }
+
+
+    var approved = await blockchain.smartContract.methods.isApprovedForAll(blockchain.account, CONFIG.FARM_ADDRESS).call()
+    console.log("approved ", approved)
+
     setFeedback(`Staking`);
     blockchain.farmSmartContract.methods
     .stakeAll()
@@ -488,18 +493,18 @@ function App() {
                       getData();
                     }}
                   >
-                    {claimingNft ? "MINTING": "MINT"}
+                    {claimingNft ? "MINTING": "NFT MINT"}
                   </StyledButton>
                   <s.SpacerLarge />
-                  {/* <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "200px", height: 50, weight: "700", font: "50px" }}
+                  <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "200px", height: 50, weight: "700", font: "50px" }}
                     disabled={claimingNft ? 1 : 0}
                     onClick={(e) => {
                       e.preventDefault();
                       claimTokens();
                     }}
                   >
-                    Whitelist Claim
-                  </StyledButton> */}
+                    Whitelist Airdrop
+                  </StyledButton>
                 </>
               )}
             </>
