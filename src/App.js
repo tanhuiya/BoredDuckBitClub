@@ -295,7 +295,7 @@ function App() {
             </s.TextTitle>
             <s.TextSubTitle
               style={{ textAlign: "left", fontSize: 25, fontWeight: "bold", color: "white" }}
-            >The Most Authentic {CONFIG.NFT_NAME} Spirit on Arbitrum
+            >The Most Authentic {CONFIG.NFT_NAME} Spirit on Arbitrum.
             </s.TextSubTitle>
             <s.SpacerLarge />
             <s.Container flex={1} jc={"left"} fd={"row"} bg={"black"}>
