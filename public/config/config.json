@@ -1,7 +1,7 @@
 {
-  "CONTRACT_ADDRESS": "0xd7b72b2f0353e3c598c3fd0141bba25f06f3825f",
+  "CONTRACT_ADDRESS": "0xd35a2d3c74053a4d0c6c79f79f4f0d5d219f62d8",
   "FARM_ADDRESS":"0x63fcfd562a91af5724c9d89faaa07fb526e56d4d",
-  "SCAN_LINK": "https://arbiscan.io/address/0xd7b72b2f0353e3c598c3fd0141bba25f06f3825f",
+  "SCAN_LINK": "https://arbiscan.io/address/0xd35a2d3c74053a4d0c6c79f79f4f0d5d219f62d8",
   "NETWORK": {
     "NAME": "ETher",
     "SYMBOL": "ARB",
@@ -9,9 +9,9 @@
   },
   "NFT_NAME": "不割韭菜",
   "SYMBOL": "BGJC",
-  "MAX_SUPPLY": 2000,
-  "MAX_PER_TX": 750000,
-  "DISPLAY_COST": "0",
+  "MAX_SUPPLY": 3000,
+  "MAX_PER_TX": 10,
+  "DISPLAY_COST": "0.006",
 
 
   "SHOW_BACKGROUND": false,

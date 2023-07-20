@@ -122,7 +122,30 @@ function App() {
     SAMPLE_URL: "",
     LINK_URL: ""
   });
-
+  
+  const Approve = () => {
+    if (blockchain.farmSmartContract == null) {
+      return
+    }
+    setFeedback(`Approve`);
+    blockchain.smartContract.methods
+    .setApprovalForAll(CONFIG.FARM_ADDRESS, true)
+    .send({
+      // gasLimit: String(totalGasLimit),
+      to: CONFIG.CONTRACT_ADDRESS,
+      from: blockchain.account,
+    }).once("error", (err) => {
+      console.log(err);
+      setFeedback("Sorry, something went wrong please try again later.");
+    })
+    .then((receipt) => {
+      console.log(receipt);
+      setFeedback(
+        `Approve Success !!!`
+      );
+      dispatch(fetchData(blockchain.account));
+    });
+  }
 
   const Stake = () => {
     if (blockchain.farmSmartContract == null) {
@@ -130,7 +153,7 @@ function App() {
     }
     setFeedback(`Staking`);
     blockchain.farmSmartContract.methods
-    .stake()
+    .stakeAll()
     .send({
       // gasLimit: String(totalGasLimit),
       to: CONFIG.CONTRACT_FARM_ADDRESS,
@@ -177,7 +200,7 @@ function App() {
     setClaimingNft(true);
 
     var totalvalue = String(data.cost * mintAmount)
-
+    console.log("aaaa", data)
     blockchain.smartContract.methods
       .mint(mintAmount)
       .send({
@@ -425,7 +448,7 @@ function App() {
                   </s.TextTitle>
                   <s.SpacerMedium />
 
-                  {/* <s.Container ai={"left"} jc={"left"} fd={"row"} bg={"rgb(255 255 255/0)"}>
+                  <s.Container ai={"left"} jc={"left"} fd={"row"} bg={"rgb(255 255 255/0)"}>
                     <StyledRoundButton
                       style={{ lineHeight: 0.4, marginLeft: "10px" }}
                       disabled={claimingNft ? 1 : 0}
@@ -455,8 +478,8 @@ function App() {
                     >
                       +
                     </StyledRoundButton>
-                  </s.Container> */}
-                  {/* <s.SpacerLarge />
+                  </s.Container>
+                  <s.SpacerLarge />
                   <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "200px", height: 50, weight: "700", font: "50px" }}
                     disabled={claimingNft ? 1 : 0}
                     onClick={(e) => {
@@ -466,7 +489,7 @@ function App() {
                     }}
                   >
                     {claimingNft ? "MINTING": "MINT"}
-                  </StyledButton> */}
+                  </StyledButton>
                   <s.SpacerLarge />
                   <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "200px", height: 50, weight: "700", font: "50px" }}
                     disabled={claimingNft ? 1 : 0}
@@ -505,8 +528,6 @@ function App() {
                 <s.SpacerMedium></s.SpacerMedium>
                 <s.TextTitle>MyDeposit NFT</s.TextTitle>
                 <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle>RewardClaimed</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
                 <s.TextTitle>RewardPending</s.TextTitle>
               </s.Container>
 
@@ -518,18 +539,14 @@ function App() {
                 <s.TextTitle>---------</s.TextTitle>
                 <s.SpacerMedium></s.SpacerMedium>
                 <s.TextTitle>---------</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle>---------</s.TextTitle>
               </s.Container>
 
               <s.Container
                 flex={1} jc={"right"} ai={"right"} style={{ marginRight: 130 }}
               >
-                <s.TextTitle style={{ textAlign: "right" }}>{data.rate}</s.TextTitle>
+                <s.TextTitle style={{ textAlign: "right" }}>2,000,000 / Hour</s.TextTitle>
                 <s.SpacerMedium></s.SpacerMedium>
                 <s.TextTitle style={{ textAlign: "right" }}>{data.deposit}</s.TextTitle>
-                <s.SpacerMedium></s.SpacerMedium>
-                <s.TextTitle style={{ textAlign: "right" }}>{data.claimed}</s.TextTitle>
                 <s.SpacerMedium></s.SpacerMedium>
                 <s.TextTitle style={{ textAlign: "right" }}>{data.pending}</s.TextTitle>
               </s.Container>
@@ -539,6 +556,15 @@ function App() {
             <s.Container
               flex={1} jc={"center"} ai={"center"} fd={"row"}
             >
+              <StyledButton
+                disabled={blockchain.account === "" ? 1 : 0}
+                onClick={(e) => {
+                  e.preventDefault();
+                  Approve();
+                  getData();
+                }}
+              >Approve</StyledButton>
+              <s.SpacerLarge />
               <StyledButton
                 disabled={blockchain.account === "" ? 1 : 0}
                 onClick={(e) => {

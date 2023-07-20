@@ -1,5 +1,6 @@
 const initialState = {
   loading: false,
+  cost: 0,
   deposit: "-",
   pending: "-",
   claimed: "-",

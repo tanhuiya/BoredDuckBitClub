@@ -41,6 +41,7 @@ export const fetchData = (account) => {
         .getState()
         .blockchain.smartContract.methods.cost()
         .call();
+        console.log("####################", totalSupply, cost)
 
       let depositArr = await store
       .getState()
@@ -59,22 +60,14 @@ export const fetchData = (account) => {
         .call()
       let pending = Web3.utils.fromWei(pending1, 'ether');
 
-      let userinfo = await store
-      .getState()
-      .blockchain.farmSmartContract.methods
-        .userInfo(account)
-        .call()
-      let claimeds = userinfo["totalClaimed"]
-      let claimed = Web3.utils.fromWei(claimeds, 'ether');
-      console.log(deposit, pending, claimed)
 
-      let rates = await store
-      .getState()
-      .blockchain.farmSmartContract.methods
-        .computerCurrentToken()
-        .call()
-      let rate = Web3.utils.fromWei(rates, 'ether') + " / 30m"
-      console.log(deposit, pending, claimed, rate)
+      // let rates = await store
+      // .getState()
+      // .blockchain.farmSmartContract.methods
+      //   .computerCurrentToken()
+      //   .call()
+      // let rate = Web3.utils.fromWei(rates, 'ether') + " / 30m"
+      // console.log(deposit, pending, claimed, rate)
 
       dispatch(
         fetchDataSuccess({
@@ -83,8 +76,8 @@ export const fetchData = (account) => {
 
           deposit,
           pending,
-          claimed,
-          rate,
+          // claimed,
+          // rate,
         })
       );
     } catch (err) {
