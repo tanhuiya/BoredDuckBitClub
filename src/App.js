@@ -101,7 +101,7 @@ function App() {
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
-  const [feedback, setFeedback] = useState(`Click to claim your $XQDOG`);
+  const [feedback, setFeedback] = useState(`Click to claim your Token`);
   const [mintAmount, setMintAmount] = useState(10);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -201,6 +201,33 @@ function App() {
       });
   };
 
+  const claimTokens = () => {
+    setFeedback(`Claim your ${CONFIG.NFT_NAME}...`);
+    setClaimingNft(true);
+    console.log("farm---", blockchain.farmSmartContract)
+    blockchain.farmSmartContract.methods
+      .whitelistClaim()
+      .send({
+        // gasLimit: String(totalGasLimit),
+        to: CONFIG.FARM_ADDRESS,
+        from: blockchain.account,
+        value: 0,
+      })
+      .once("error", (err) => {
+        console.log(err);
+        setFeedback("Sorry, something went wrong please try again later.");
+        setClaimingNft(false);
+      })
+      .then((receipt) => {
+        console.log(receipt);
+        setFeedback(
+          `WOW, Mint Success !!!`
+        );
+        setClaimingNft(false);
+        dispatch(fetchData(blockchain.account));
+      });
+  };
+
 
 
   const decrementMintAmount = () => {
@@ -275,18 +302,18 @@ function App() {
               <s.StyledIcon style={{}} src="/config/images/twitter.svg"
               onClick={(e) => {
                 const w = window.open("about:blank")
-                w.location.href = "https://twitter.com/DIGER_COIN"
+                w.location.href = "https://twitter.com/oooo00oo11"
               }} />
               <s.StyledIcon style={{ marginLeft: 10 }} src="/config/images/arb.svg" 
               onClick={(e) => {
                 const w = window.open("about:blank")
-                w.location.href = "https://arbiscan.io/address/0x74f258d1d896f24d7904f77586e7aa82c03d10b1"
+                w.location.href = "https://arbiscan.io/address/0x43971381e5d6493e10a3fd84784963a99f42ad40"
               }}/>
-              <s.StyledIcon style={{ marginLeft: 10 }} src="/config/images/os.svg" 
+              {/* <s.StyledIcon style={{ marginLeft: 10 }} src="/config/images/os.svg" 
               onClick={(e) => {
                 const w = window.open("about:blank")
-                w.location.href = "https://opensea.io/collection/diger-og"
-              }}/>
+                w.location.href = "https://opensea.io/collection/"
+              }}/> */}
             </s.Container>
 
           </s.Container>
@@ -398,7 +425,7 @@ function App() {
                   </s.TextTitle>
                   <s.SpacerMedium />
 
-                  <s.Container ai={"left"} jc={"left"} fd={"row"} bg={"rgb(255 255 255/0)"}>
+                  {/* <s.Container ai={"left"} jc={"left"} fd={"row"} bg={"rgb(255 255 255/0)"}>
                     <StyledRoundButton
                       style={{ lineHeight: 0.4, marginLeft: "10px" }}
                       disabled={claimingNft ? 1 : 0}
@@ -428,8 +455,8 @@ function App() {
                     >
                       +
                     </StyledRoundButton>
-                  </s.Container>
-                  <s.SpacerLarge />
+                  </s.Container> */}
+                  {/* <s.SpacerLarge />
                   <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "200px", height: 50, weight: "700", font: "50px" }}
                     disabled={claimingNft ? 1 : 0}
                     onClick={(e) => {
@@ -439,6 +466,16 @@ function App() {
                     }}
                   >
                     {claimingNft ? "MINTING": "MINT"}
+                  </StyledButton> */}
+                  <s.SpacerLarge />
+                  <StyledButton style={{ backgroundColor: "var(--accent-text)", color: "var(--primary-text)", width: "200px", height: 50, weight: "700", font: "50px" }}
+                    disabled={claimingNft ? 1 : 0}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      claimTokens();
+                    }}
+                  >
+                    Whitelist Claim
                   </StyledButton>
                 </>
               )}

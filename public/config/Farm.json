@@ -1,10 +1,5 @@
 [
 	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -41,6 +36,59 @@
 		],
 		"name": "OwnershipTransferred",
 		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Withdraw",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "",
+				"type": "bytes"
+			}
+		],
+		"name": "onERC721Received",
+		"outputs": [
+			{
+				"internalType": "bytes4",
+				"name": "",
+				"type": "bytes4"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -102,7 +150,39 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "addrs",
+				"type": "address[]"
+			}
+		],
+		"name": "setWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "setWhitelistTokenAmount",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "_tokenIDs",
+				"type": "uint256[]"
+			}
+		],
 		"name": "stake",
 		"outputs": [],
 		"stateMutability": "nonpayable",
@@ -110,14 +190,14 @@
 	},
 	{
 		"inputs": [],
-		"name": "start",
+		"name": "stakeAll",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "toggleOpen",
+		"name": "toggle",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -144,35 +224,34 @@
 	},
 	{
 		"inputs": [],
-		"name": "updateCurrentToken",
+		"name": "whitelistClaim",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "user",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "Withdraw",
-		"type": "event"
 	},
 	{
 		"inputs": [],
 		"name": "withdrawerc20",
 		"outputs": [],
 		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "APYPercent",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -190,33 +269,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "computerCurrentToken",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
 		"name": "computerPeriod",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "currentToken",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -260,19 +313,6 @@
 				"internalType": "address",
 				"name": "",
 				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "deRate",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -368,25 +408,18 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "startTime",
-		"outputs": [
+		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "address",
 				"name": "",
-				"type": "uint256"
+				"type": "address"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "updateTime",
+		"name": "userInfo",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "lastRewardTime",
 				"type": "uint256"
 			}
 		],
@@ -401,21 +434,24 @@
 				"type": "address"
 			}
 		],
-		"name": "userInfo",
+		"name": "whitelist",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "whitelistTokenAmount",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "lastRewardTime",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "lastRewardToken",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "totalClaimed",
+				"name": "",
 				"type": "uint256"
 			}
 		],

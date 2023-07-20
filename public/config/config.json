@@ -1,17 +1,17 @@
 {
-  "CONTRACT_ADDRESS": "0x74F258D1d896f24d7904f77586e7AA82c03D10b1",
-  "FARM_ADDRESS":"0xdbcaf9a04340a1bfb3697ce50ebc7ce6f226f025",
-  "SCAN_LINK": "https://arbiscan.io/address/0x74F258D1d896f24d7904f77586e7AA82c03D10b1",
+  "CONTRACT_ADDRESS": "0xd7b72b2f0353e3c598c3fd0141bba25f06f3825f",
+  "FARM_ADDRESS":"0x63fcfd562a91af5724c9d89faaa07fb526e56d4d",
+  "SCAN_LINK": "https://arbiscan.io/address/0xd7b72b2f0353e3c598c3fd0141bba25f06f3825f",
   "NETWORK": {
     "NAME": "ETher",
     "SYMBOL": "ARB",
-    "ID": 1
+    "ID": 42161
   },
-  "NFT_NAME": "DIGER",
-  "SYMBOL": "DIGER",
-  "MAX_SUPPLY": 20000,
-  "MAX_PER_TX": 10,
-  "DISPLAY_COST": "0.001",
+  "NFT_NAME": "不割韭菜",
+  "SYMBOL": "BGJC",
+  "MAX_SUPPLY": 2000,
+  "MAX_PER_TX": 750000,
+  "DISPLAY_COST": "0",
 
 
   "SHOW_BACKGROUND": false,
